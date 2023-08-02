@@ -16,6 +16,11 @@ if __name__ == '__main__':
         scott.set_password("test")
 
         db.session.add(scott)
+        
+        rachel = User(fname="Rachel", lname="Brusky", email="bruskr@d-e.org", phone="917-699-4370", password="test", image_url="")
+        scott.set_password("test")
+
+        db.session.add(rachel)
 
         # Commit the session to the database
         db.session.commit()

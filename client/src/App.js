@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import API_URL from "./apiConfig";
+import Header from "./components/Header";
 import Home from "./components/Home";
+import Users from "./components/Users";
 import './App.css';
 
 function App() {
@@ -17,8 +19,10 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <Header />
         <Routes>
-          <Route path="/" element={<Home users={users} setUsers={setUsers} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/users" element={<Users users={users} setUsers={setUsers} />} />
         </Routes>
       </Router>
     </div>
