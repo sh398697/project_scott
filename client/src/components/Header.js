@@ -10,6 +10,7 @@ function Header() {
                 <ul className="header-menu">
                     <li><NavLink to="/">Home</NavLink></li>
                     <li><NavLink to="/users">Users</NavLink></li>
+                    <li><NavLink to="/posts">Posts</NavLink></li>
                 </ul>
             </div>
         </div>

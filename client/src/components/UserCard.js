@@ -1,16 +1,16 @@
 import React from "react";
 
-function UserCard({ team }) {
+function UserCard({ user }) {
 
 
 
     return (
         <div>
-            <div>User ID: {team.id}</div>
-            <div>Name: {team.fname} {team.lname}</div>
-            <div>Email: {team.email}</div>
-            <div>Phone: {team.phone}</div>
-            <div>Image: {team.image_url}</div>
+            <div>User ID: {user.id}</div>
+            <div>Name: {user.fname} {user.lname}</div>
+            <div>Email: {user.email}</div>
+            <div>Phone: {user.phone}</div>
+            <div>Image: {user.image_url}</div>
             <br />
         </div>
   );

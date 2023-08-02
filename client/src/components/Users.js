@@ -1,10 +1,10 @@
 import React from "react";
 import UserCard from "./UserCard";
 
-function Users({ users }) {
+function Users({ users, setUsers }) {
 
     const userObjArray = users.map( userObj => {
-        return <UserCard key={userObj.id} team={userObj} />
+        return <UserCard key={userObj.id} user={userObj} />
       } )
 
     return (

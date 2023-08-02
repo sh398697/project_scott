@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date, datetime, timedelta
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from models import db, User
+from models import db, User, Post
 
 # Instantiate app, set attributes
 app = Flask(__name__)
@@ -60,22 +60,46 @@ def create_user():
   data = request.get_json()
   user = User(fname=data['fname'], lname=data['lname'], email=data['email'], phone=data['phone'], image_url=data['image_url'], password=data['password'])
   user_dict = {
-                  "fname": user.fname,
-                  "lname": user.lname,
-                  "email": user.email,
-                  "phone": user.phone,
-                  "password": user.password_hash,
-                  "image_url": user.image_url
-                  }
+    "fname": user.fname,
+    "lname": user.lname,
+    "email": user.email,
+    "phone": user.phone,
+    "password": user.password_hash,
+    "image_url": user.image_url
+    }
   db.session.add(user)
   db.session.commit()
   response = make_response(
-        user_dict,
-        201,
+    user_dict,
+    201,
+    {"Content-Type": "application/json"}
+  )
+  return response
+    
+
+
+@app.route('/posts', methods=['GET'])
+def get_posts():
+  posts = []
+  for post in Post.query.all():
+    post_dict = {
+                  "id": post.id,
+                  "title": post.title,
+                  "content": post.content,
+                  "user_id": post.user_id,
+                  "date_posted": post.date_posted
+                  }
+    posts.append(post_dict)
+  
+  response = make_response(
+        posts,
+        200,
         {"Content-Type": "application/json"}
     )
   return response
-    
+
+
+
 
 
 
@@ -107,31 +131,31 @@ def login():
 @app.route('/get-user-data', methods=['GET'])
 @jwt_required()
 def get_user_data():
-    user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+  user_id = get_jwt_identity()
+  user = User.query.get(user_id)
 
-    if user:
-        user_dict = {
-            "id": user.id,
-            "fname": user.fname,
-            "lname": user.lname,
-            "email": user.email,
-            "phone": user.phone,
-            "image_url": user.image_url
-        }
-        response = make_response(
-            user_dict,
-            200,
-            {"Content-Type": "application/json"}
-        )
-    else:
-        response = make_response(
-            {"error": "User not found"},
-            404,
-            {"Content-Type": "application/json"}
-        )
+  if user:
+    user_dict = {
+      "id": user.id,
+      "fname": user.fname,
+      "lname": user.lname,
+      "email": user.email,
+      "phone": user.phone,
+      "image_url": user.image_url
+    }
+    response = make_response(
+      user_dict,
+      200,
+      {"Content-Type": "application/json"}
+    )
+  else:
+    response = make_response(
+      {"error": "User not found"},
+      404,
+      {"Content-Type": "application/json"}
+    )
 
-    return response
+  return response
   
 
 
